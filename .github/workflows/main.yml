@@ -12,7 +12,6 @@ on:
     
 env:
   PROJECT_PATH: "./WebApplication2/WebApplication2.csproj"
-  AZURE_WEBAPP_PACKAGE_PATH: "./Release"
 
 jobs:
   build:
@@ -29,13 +28,13 @@ jobs:
     - name: Dotnet Build and Publish
       run: |
         dotnet build $PROJECT_PATH --configuration Release
-        dotnet publish $PROJECT_PATH -c Release --output $AZURE_WEBAPP_PACKAGE_PATH     
+        dotnet publish $PROJECT_PATH -c Release  --property:PublishDir='./Release'     
         
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
         name: web-app-=$(date +'%Y%m%d')-${{ github.run_attempt }}
-        path: $AZURE_WEBAPP_PACKAGE_PATH
+        path: './Release'
     
     
