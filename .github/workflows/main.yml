@@ -37,6 +37,6 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: web-app-=$(date +'%Y%m%d')-${{ github.run_attempt }}
-        path: '${{env.$AZURE_WEBAPP_PACKAGE_PATH}}'
+        path: '${{ env.$AZURE_WEBAPP_PACKAGE_PATH }}'
     
     
