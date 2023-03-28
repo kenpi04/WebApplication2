@@ -28,13 +28,13 @@ jobs:
     - name: Dotnet Build and Publish
       run: |
         dotnet build $PROJECT_PATH --configuration Release
-        dotnet publish $PROJECT_PATH -c Release  --property:PublishDir='./Release'     
+        dotnet publish $PROJECT_PATH -c Release  --o ./Release     
         
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: web-app-=$(date +'%Y%m%d')-${{ github.run_attempt }}
-        path: './Release'
+        name: web-app-$(date +'%Y-%m-%d')-${{ github.run_attempt }}
+        path: ./Release
     
     
