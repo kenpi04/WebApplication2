@@ -10,9 +10,6 @@ on:
   push:
     branches: ["master"]
     
-env:
-  PROJECT_PATH: "./WebApplication2/WebApplication2.csproj"
-
 jobs:
   build:
 
@@ -26,7 +23,7 @@ jobs:
         dotnet-version: 7.0.x
         
     - name: Dotnet Build
-      run: dotnet build $PROJECT_PATH --configuration Release 
+      run: dotnet build ./WebApplication2/WebApplication2.csproj --configuration Release 
    
     - name: Dotnet Publish
       id: publish
@@ -37,7 +34,7 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: web-app-$(date +'%Y-%m-%d')-${{ github.run_attempt }}
+        name: web-app-${{ steps.publish.outputs.date }}-${{ github.run_attempt }}
         path: ./Release
     
     
