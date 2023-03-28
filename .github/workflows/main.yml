@@ -12,7 +12,7 @@ on:
     
 jobs:
   build:
-
+    name: Build And Public
     runs-on: windows-latest
 
     steps:
