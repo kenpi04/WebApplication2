@@ -11,8 +11,8 @@ on:
     branches: ["master"]
     
 env:
-  PROJECT_PATH: "./WebApplication2/*.csproj"
-  AZURE_WEBAPP_PACKAGE_PATH: "."
+  PROJECT_PATH: "./WebApplication2/WebApplication2.csproj"
+  AZURE_WEBAPP_PACKAGE_PATH: "./Release"
 
 jobs:
   build:
@@ -30,17 +30,13 @@ jobs:
       run: |
         dotnet restore $PROJECT_PATH
         dotnet build $PROJECT_PATH --configuration Release
-        dotnet publish $PROJECT_PATH -c Release -o ./Release      
+        dotnet publish $PROJECT_PATH -c Release -o $AZURE_WEBAPP_PACKAGE_PATH      
         
-    - name: Output Run Attempt
-      run: |
-          echo ${{ github.run_attempt }}
-          echo NOW=$(date +'%Y-%m-%dT%H:%M:%S')
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: web-app-${{ github.run_attempt }}
-        path: ./Release
+        name: web-app-=$(date +'%Y%m%d')-${{ github.run_attempt }}
+        path: $AZURE_WEBAPP_PACKAGE_PATH
     
     
