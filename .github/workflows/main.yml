@@ -12,6 +12,7 @@ on:
     
 env:
   PROJECT_PATH: "./WebApplication2/*.csproj"
+  AZURE_WEBAPP_PACKAGE_PATH: "./build"
 
 jobs:
   build:
@@ -25,13 +26,10 @@ jobs:
       with:
         dotnet-version: 7.0.x
         
-    - name: Restore dependencies
-      run: dotnet restore
-      
-    - name: Build
-      run: dotnet build $PROJECT_PATH --no-restore
-      
-    - name: Public
-      run: dotnet public $PROJECT_PATH -- --no-build --output ./build/
-
+    - name: dotnet build and publish
+      run: |
+        dotnet restore
+        dotnet build --configuration Release
+        dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'       
+    
     
