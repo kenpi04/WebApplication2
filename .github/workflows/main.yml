@@ -32,7 +32,7 @@ jobs:
       id: publish
       run: |
           dotnet publish ./WebApplication2/WebApplication2.csproj -c Release  -o ./Release 
-          echo "::set-output name=date::$(date +'%Y-%m-%d')"
+          echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
