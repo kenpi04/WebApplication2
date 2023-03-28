@@ -28,12 +28,9 @@ jobs:
         
     - name: dotnet build and publish
       run: |
-        dotnet restore
-        dotnet build --configuration Release
-        dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'   
-        
-    - name: Check file
-      run: dir '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp' 
+        dotnet restore $PROJECT_PATH
+        dotnet build $PROJECT_PATH --configuration Release
+        dotnet publish $PROJECT_PATH -c Release'           
         
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
