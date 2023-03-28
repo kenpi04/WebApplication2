@@ -35,7 +35,7 @@ jobs:
     - name: 'Upload Artifact'
       uses: actions/upload-artifact@v3
       with:
-        name: web- ${{ github.run_number }}
-        path: $AZURE_WEBAPP_PACKAGE_PATH
+        name: web-${{ github.run_number }}
+        path: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
     
     
