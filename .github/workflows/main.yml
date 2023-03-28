@@ -8,7 +8,7 @@ name: Check main branch
 on:
 
   push:
-    branches: ["main"]
+    branches: ["master"]
     
 env:
   PROJECT_PATH: "./WebApplication2/*.csproj"
