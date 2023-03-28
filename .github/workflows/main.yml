@@ -29,12 +29,12 @@ jobs:
       id: publish
       run: |
           dotnet publish ./WebApplication2/WebApplication2.csproj -c Release  -o ./Release 
-          echo "{date}={$(date +'%Y-%m-%d')}" >> $GITHUB_STATE
+          echo "NOW={$(date +'%Y-%m-%d')}" >> $GITHUB_ENV
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: web-app-${{ env.date }}-${{ github.run_attempt }}
+        name: web-app-${{ env.NOW }}-${{ github.run_attempt }}
         path: ./Release
     
     
