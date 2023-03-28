@@ -29,7 +29,7 @@ jobs:
       run: dotnet build $PROJECT_PATH --configuration Release 
    
     - name: Dotnet Publish
-      run: dotnet publish ./WebApplication2/WebApplication2.csproj -c Release  --o ./Release     
+      run: dotnet publish ./WebApplication2/WebApplication2.csproj -c Release  -o ./Release     
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
