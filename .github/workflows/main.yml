@@ -27,20 +27,12 @@ jobs:
    
     - name: Dotnet Publish
       id: publish
-      run: |
-          dotnet publish ./WebApplication2/WebApplication2.csproj -c Release  -o ./Release 
-          echo "NOW={$(date +'%Y-%m-%d')}" >> $GITHUB_ENV
-          
-    - name: Dynamically set MY_DATE environment variable
-      run: echo "MY_DATE=2020-10-07T12:00:00+01:00" >> $GITHUB_ENV 
-      
-    - name: Test MY_DATE variable
-      run: echo ${{ env.MY_DATE }}
-    
+      run: dotnet publish ./WebApplication2/WebApplication2.csproj -c Release  -o ./Release       
+
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: web-app-${{ env.NOW }}-${{ github.run_attempt }}
+        name: web-app-${{ github.run_attempt }}
         path: ./Release
     
     
