@@ -25,11 +25,11 @@ jobs:
       with:
         dotnet-version: 7.0.x
         
-    - name: Dotnet Build and Publish
-      run: |
-        dotnet build $PROJECT_PATH --configuration Release
-        dotnet publish $PROJECT_PATH -c Release  --o ./Release     
-        
+    - name: Dotnet Build
+      run: dotnet build $PROJECT_PATH --configuration Release 
+   
+    - name: Dotnet Publish
+      run: dotnet publish ./WebApplication2/WebApplication2.csproj -c Release  --o ./Release     
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
