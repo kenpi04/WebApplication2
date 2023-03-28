@@ -32,7 +32,10 @@ jobs:
         dotnet build --configuration Release
         dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'   
         
-    - name: 'Upload Artifact'
+    - name: Check file
+      run: dir '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp' 
+        
+    - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
         name: web-${{ github.run_number }}
