@@ -30,12 +30,12 @@ jobs:
       run: |
         dotnet restore $PROJECT_PATH
         dotnet build $PROJECT_PATH --configuration Release
-        dotnet publish $PROJECT_PATH -c Release         
+        dotnet publish $PROJECT_PATH -c Release ./Release        
         
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: web-${{ github.run_number }}
-        path: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
+        name: web-app
+        path: ./Release
     
     
