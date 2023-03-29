@@ -25,15 +25,76 @@ jobs:
     - name: Dotnet Build
       run: dotnet build ./WebApplication2/WebApplication2.csproj --configuration Release 
    
-    - name: Dotnet Publish
-      id: publish
-      run: dotnet publish ./WebApplication2/WebApplication2.csproj -c Release  -o ./Release       
-
+    - name: Test
+      run: dotnet test ./WebApplication2.sln --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+    
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: web-app-${{ github.run_attempt }}
-        path: ./Release
+        name: coverage-${{ github.run_number }}
+        path: ./coverage  
     
+ 
+        
+  report:
+    needs: build
+    name: "Generate testing report"
+    runs-on: ubuntu-latest
+
+    steps:    
+    
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2.1.1
+      with:
+        name:  coverage-${{ github.run_number }}
+        path:  ./artifact
+        
+    - name: Run ls
+      run: |
+           ls -R 
+      working-directory: ./artifact
+
+    - name: ReportGenerator
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.9
+      with:
+        reports: ./artifact/**/*.xml
+        targetdir: ${{ github.workspace }}
+        reporttypes: 'Cobertura'       
+        
+    - name: Display structure of folder
+      run: ls -R
+      working-directory: ${{ github.workspace }}
+  
+    - name: Code Coverage Summary Report
+      uses: irongut/CodeCoverageSummary@v1.2.0
+      with:
+        filename: Cobertura.xml
+        badge: true
+        fail_below_min: true
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: true
+        indicators: true
+        output: both
+        thresholds: '${{ secrets.MIN_CODE_CORVERAGE_REQUIRED}} 90'
+    
+    - name: Add Coverage PR Comment
+      uses: marocchino/sticky-pull-request-comment@v2
+      if: github.event_name == 'pull_request'
+      with:
+        recreate: true
+        path: code-coverage-results.md
+
+    - name: Get branch names
+      id: branch-name
+      uses: tj-actions/branch-names@v5.2      
+
+    - uses: action-badges/cobertura-coverage-xml-badges@0.2.1      
+      with:
+        file-name: coverage.svg
+        github-token: '${{ secrets.GITHUB_TOKEN }}'
+        coverage-file-name: ${{ github.workspace }}/Cobertura.xml
+        badge-branch: '${{ steps.branch-name.outputs.current_branch }}'
+        label: Code Coverage   
     
     
