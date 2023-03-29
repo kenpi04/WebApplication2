@@ -60,7 +60,7 @@ jobs:
         
     - name: Display structure of folder
       run: ls -R
-      working-directory: ${{ github.workspace }}
+      working-directory:  /github/workspace
   
     - name: Code Coverage Summary Report
       uses: irongut/CodeCoverageSummary@v1.2.0
