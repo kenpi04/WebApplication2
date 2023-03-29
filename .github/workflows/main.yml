@@ -91,8 +91,8 @@ jobs:
       with:
         file-name: coverage.svg
         github-token: '${{ secrets.GITHUB_TOKEN }}'
-        coverage-file-name: ${{ github.workspace }}/Cobertura.xml
+        coverage-file-name: Cobertura.xml
         badge-branch: '${{ steps.branch-name.outputs.current_branch }}'
-        label: Code Coverage   
+        label: Code Coverage 
     
     
