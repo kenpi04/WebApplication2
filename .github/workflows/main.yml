@@ -3,7 +3,8 @@
 #
 
 name: Check main branch
-
+env:
+  ACTIONS_RUNNER_DEBUG: true
 
 on:
 
@@ -13,7 +14,7 @@ on:
 jobs:
   build:
     name: Build And Public
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -22,11 +23,36 @@ jobs:
       with:
         dotnet-version: 7.0.x
         
-    - name: Dotnet Build
-      run: dotnet build ./WebApplication2/WebApplication2.csproj --configuration Release 
-   
     - name: Test
-      run: dotnet test ./WebApplication2.sln --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+      run: dotnet test  --verbosity normal --collect:"XPlat Code Coverage" --results-directory  ./coverage
+      
+    - name: Copy Coverage to Predictable Location
+      run: |
+          cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
+          cat coverage/coverage.cobertura.xml
+
+    - name: Code Coverage Summary Report
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      with:
+        filename: coverage/coverage.cobertura.xml
+        badge: true
+        format: 'markdown'
+        output: 'both'
+    
+    
+    
+    - name: Code Coverage Report
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      with:
+        filename: coverage/**/coverage.cobertura.xml
+        badge: true
+        fail_below_min: true
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: true
+        indicators: true
+        output: both
+        thresholds: '60 80'
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
@@ -63,12 +89,12 @@ jobs:
         
     - name: Display structure of folder
       run: ls -R
-      working-directory: ${{ github.workspace }}
+      working-directory:  ${{ github.workspace }}
   
     - name: Code Coverage Summary Report
-      uses: irongut/CodeCoverageSummary@v1.2.0
+      uses: irongut/CodeCoverageSummary@v1.3.0
       with:
-        filename: Cobertura.xml
+        filename: '/home/runner/work/WebApplication2/WebApplication2/Cobertura.xml'
         badge: true
         fail_below_min: true
         format: markdown
@@ -76,7 +102,7 @@ jobs:
         hide_complexity: true
         indicators: true
         output: both
-        thresholds: '${{ secrets.MIN_CODE_CORVERAGE_REQUIRED}} 90'
+        thresholds: '50 90'
     
     - name: Add Coverage PR Comment
       uses: marocchino/sticky-pull-request-comment@v2
