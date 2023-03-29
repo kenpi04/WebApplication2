@@ -65,7 +65,7 @@ jobs:
     - name: Code Coverage Summary Report
       uses: irongut/CodeCoverageSummary@v1.2.0
       with:
-        filename: ${{ github.workspace }}/Cobertura.xml
+        filename: ${{ github.workspace }}/**/coverage.cobertura.xml
         badge: true
         fail_below_min: true
         format: markdown
