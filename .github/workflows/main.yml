@@ -8,14 +8,11 @@ name: Check main branch
 on:
 
   push:
-    branches: ["main"]
+    branches: ["master"]
     
-env:
-  PROJECT_PATH: "./WebApplication2/*.csproj"
-
 jobs:
   build:
-
+    name: Build And Public
     runs-on: windows-latest
 
     steps:
@@ -25,13 +22,18 @@ jobs:
       with:
         dotnet-version: 7.0.x
         
-    - name: Restore dependencies
-      run: dotnet restore
-      
-    - name: Build
-      run: dotnet build $PROJECT_PATH --no-restore
-      
-    - name: Public
-      run: dotnet public $PROJECT_PATH -- --no-build --output ./build/
+    - name: Dotnet Build
+      run: dotnet build ./WebApplication2/WebApplication2.csproj --configuration Release 
+   
+    - name: Dotnet Publish
+      id: publish
+      run: dotnet publish ./WebApplication2/WebApplication2.csproj -c Release  -o ./Release       
 
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: web-app-${{ github.run_attempt }}
+        path: ./Release
+    
+    
     
