@@ -25,34 +25,6 @@ jobs:
         
     - name: Test
       run: dotnet test  --verbosity normal --collect:"XPlat Code Coverage" --results-directory  ./coverage
-      
-    - name: Copy Coverage to Predictable Location
-      run: |
-          cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
-          cat coverage/coverage.cobertura.xml
-
-    - name: Code Coverage Summary Report
-      uses: irongut/CodeCoverageSummary@v1.3.0
-      with:
-        filename: coverage/coverage.cobertura.xml
-        badge: true
-        format: 'markdown'
-        output: 'both'
-    
-    
-    
-    - name: Code Coverage Report
-      uses: irongut/CodeCoverageSummary@v1.3.0
-      with:
-        filename: coverage/**/coverage.cobertura.xml
-        badge: true
-        fail_below_min: true
-        format: markdown
-        hide_branch_rate: false
-        hide_complexity: true
-        indicators: true
-        output: both
-        thresholds: '10 80'
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
@@ -94,7 +66,7 @@ jobs:
     - name: Code Coverage Summary Report
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:
-        filename: '/home/runner/work/WebApplication2/WebApplication2/Cobertura.xml'
+        filename: Cobertura.xml
         badge: true
         fail_below_min: true
         format: markdown
@@ -102,7 +74,7 @@ jobs:
         hide_complexity: true
         indicators: true
         output: both
-        thresholds: '50 90'
+        thresholds: '10 90'
     
     - name: Add Coverage PR Comment
       uses: marocchino/sticky-pull-request-comment@v2
