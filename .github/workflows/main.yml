@@ -13,9 +13,9 @@ on:
     
 jobs:
   build-and-deploy_1:
-    uses: kenpi04/WebApplication2/.github/workflows/build1.yml@main
+    uses: ./.github/workflows/build1.yml@main
   build-and-deploy_2:
-    uses: kenpi04/WebApplication/.github/workflows/build2.yml@main
+    uses: ./.github/workflows/build2.yml@main
       
  
   
