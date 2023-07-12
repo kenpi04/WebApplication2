@@ -12,23 +12,11 @@ on:
     branches: ["master"]
     
 jobs:
-  check_change:
-    name: Check Change
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-          dotnet-version: 7.0.x
-    - name: "Checkout GitHub Action"
-      uses: actions/checkout@v3       
+  build-and-deploy_1:
+    uses: kenpi04/WebApplication2/.github/workflows/build1.yml@main
+  build-and-deploy_2:
+    uses: kenpi04/WebApplication/.github/workflows/build2.yml@main
       
-    - name: Restore dependencies
-      run: dotnet restore ./WebApplication2/WebApplication2.csproj
-
-    - name: Build
-      run: dotnet build ./WebApplication2/WebApplication2.csproj --no-restore --configuration Release
  
   
 
