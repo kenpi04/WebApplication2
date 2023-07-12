@@ -22,24 +22,12 @@ jobs:
       with:
           dotnet-version: 7.0.x
     - name: "Checkout GitHub Action"
-      uses: actions/checkout@v3
-        
-    - uses: dorny/paths-filter@v2
-      id: changes
-      with:
-        filters: |
-          WebApplication2:
-            - 'WebApplication2/**'
-          WebApplication3:
-            - 'WebApplication3/**'           
-  
-
+      uses: actions/checkout@v3       
+      
     - name: Restore dependencies
-      if : steps.changes.outputs.WebApplication2 == 'true'
       run: dotnet restore ./WebApplication2/WebApplication2.csproj
 
     - name: Build
-      if : steps.changes.outputs.WebApplication2 == 'true'
       run: dotnet build ./WebApplication2/WebApplication2.csproj --no-restore --configuration Release
  
   
