@@ -12,10 +12,11 @@ on:
     branches: ["master"]
     
 jobs:
+  
   build-and-deploy_1:
-    uses: ./.github/workflows/build-1.yml
+    uses: ./.github/workflows/build-1.yml@main
   build-and-deploy_2:
-    uses: ./.github/workflows/build-2.yml
+    uses: ./.github/workflows/build-2.yml@main
       
  
   
