@@ -16,7 +16,14 @@ jobs:
     name: Check Change
     runs-on: ubuntu-latest
 
-    steps:           
+    steps:
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+          dotnet-version: 7.0.x
+    - name: "Checkout GitHub Action"
+      uses: actions/checkout@v3
+        
     - uses: dorny/paths-filter@v2
       id: changes
       with:
@@ -24,12 +31,8 @@ jobs:
           WebApplication1:
             - 'WebApplication1/**'
           WebApplication2:
-            - 'WebApplication2/**'
-            
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-          dotnet-version: 7.0.x
+            - 'WebApplication2/**'           
+  
 
     - name: Restore dependencies
       if : steps.changes.outputs.WebApplication1 == 'true'
