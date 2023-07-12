@@ -15,9 +15,37 @@ jobs:
   
   build-and-deploy_1:
     uses: ./.github/workflows/build-1.yml
-  build-and-deploy_2:
-    needs: build-and-deploy_1    
+  
+  deploy_1:
+    runs-on: windows-latest
+    needs: build-and-deploy_1
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: web1-${{ github.run_number }}
+          path: ./artifact
+
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: ./artifact
+  
+  build-and-deploy_2:  
     uses: ./.github/workflows/build-2.yml
+  
+  deploy_2:
+      runs-on: windows-latest
+      needs: build-and-deploy_2
+      steps:
+        - name: Download artifact
+          uses: actions/download-artifact@v3
+          with:
+            name: web2-${{ github.run_number }}
+            path: ./artifact
+  
+        - name: Display structure of downloaded files
+          run: ls -R
+          working-directory: ./artifact
       
  
   

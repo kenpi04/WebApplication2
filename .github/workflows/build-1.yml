@@ -10,8 +10,8 @@ on:
   workflow_call:
     
 jobs:
-  check_change:
-    name: Check Change
+  build:
+    name: Build Project 1
     runs-on: ubuntu-latest
 
     steps:
@@ -27,6 +27,36 @@ jobs:
 
     - name: Build
       run: dotnet build ./WebApplication2/WebApplication2.csproj --no-restore --configuration Release
+    
+    - name: "Publish Project"
+      shell: pwsh # For Linux, use bash
+      run: |
+        pushd './'
+        dotnet publish ./WebApplication2/WebApplication2.csproj --configuration Release --output ./build/WebApplication2 --no-build
+        popd
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: web1-${{ github.run_number }}
+        path: ./build/WebApplication2
+    
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment: 
+        name: 'staging'
+
+    steps:     
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: web1-${{ github.run_number }}
+          path: ./artifact
+
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: ./artifact
  
   
 
