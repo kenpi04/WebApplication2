@@ -25,40 +25,20 @@ jobs:
             - 'WebApplication1/**'
           WebApplication2:
             - 'WebApplication2/**'
-    
-  build_publish_testproject:
-      name: build WebApplication1
-      if : steps.changes.outputs.WebApplication1 == 'true'
-      runs-on: ubuntu-latest
-      steps:
-      
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 7.0.x
-      
-      - name: Restore dependencies
-        run: dotnet restore ./WebApplication1/WebApplication1.csproj
-      
-      - name: Build
-        run: dotnet build ./WebApplication1/WebApplication1.csproj --no-restore --configuration Release
- 
-  build_publish_testproject2:
-    name: build WebApplication2
-    if : steps.changes.outputs.WebApplication2 == 'true'
-    runs-on: ubuntu-latest
-    steps:
-
+            
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x
+          dotnet-version: 7.0.x
 
     - name: Restore dependencies
-      run: dotnet restore ./WebApplication2/WebApplication2.csproj
+      if : steps.changes.outputs.WebApplication1 == 'true'
+      run: dotnet restore ./WebApplication1/WebApplication1.csproj
 
     - name: Build
-      run: dotnet build ./WebApplication2/WebApplication2.csproj --no-restore --configuration Release
+      run: dotnet build ./WebApplication1/WebApplication1.csproj --no-restore --configuration Release
+ 
+  
 
     
     
