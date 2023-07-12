@@ -36,10 +36,10 @@ jobs:
 
     - name: Restore dependencies
       if : steps.changes.outputs.WebApplication1 == 'true'
-      run: dotnet restore ./WebApplication1/WebApplication1.csproj
+      run: dotnet restore ./WebApplication2/WebApplication2.csproj
 
     - name: Build
-      run: dotnet build ./WebApplication1/WebApplication1.csproj --no-restore --configuration Release
+      run: dotnet build ./WebApplication2/WebApplication2.csproj --no-restore --configuration Release
  
   
 
